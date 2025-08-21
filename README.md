@@ -1,4 +1,4 @@
-<h1 align="center">ZQ-WallBreakPanel 💦</h1>
+<h1 align="center">💦 ZQ-WallBreakPanel</h1>
 
 ## 项目简介
 
@@ -56,8 +56,8 @@ npm run build
 
 | 变量名 | 说明 | 示例值 |
 |--------|------|--------|
-| **UUID** | VLESS UUID | `12345678-1234-1234-1234-123456789abc` |
-| **TR_PASS** | Trojan 密码 | `your_trojan_password` |
+| **UUID(必填)** | VLESS UUID | `12345678-1234-1234-1234-123456789abc` |
+| **TR_PASS(必填)** | Trojan 密码 | `your_trojan_password` |
 | **PROXY_IP** | 代理 IP 或域名 (VLESS, Trojan) | `1.1.1.1` 或 `proxy.example.com` |
 | **SUB_PATH** | 订阅链接路径 | `/sub` |
 | **FALLBACK** | 备用域名 (VLESS, Trojan) | `speed.cloudflare.com` |
