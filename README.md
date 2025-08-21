@@ -1,12 +1,9 @@
-<h1 align="center">WallBreakPanel 💦</h1>
+<h1 align="center">ZQ-WallBreakPanel 💦</h1>
 
 ## 项目简介
 
-WallBreakPanel 是一个免费的、安全的、私密的用户面板，提供 **VLESS**、**Trojan** 和 **Warp** 配置。即使在域名或 Warp 服务被 ISP 封锁的情况下，也能确保连接性。
+ZQ-WallBreakPanel 是一个免费的、安全的、私密的用户面板，提供 **VLESS**、**Trojan** 和 **Warp** 配置。即使在域名或 Warp 服务被 ISP 封锁的情况下，也能确保连接性。
 
-支持两种部署方式：
-- **Cloudflare Workers** 部署
-- **Cloudflare Pages** 部署
 
 ## 主要功能
 
