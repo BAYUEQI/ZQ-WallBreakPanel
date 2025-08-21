@@ -75,6 +75,7 @@ npm run build
 部署完成后，访问你的 Worker URL：
 - 面板地址：`https://your-worker.your-subdomain.workers.dev/panel`
 - 登录地址：`https://your-worker.your-subdomain.workers.dev/login`
+- 密钥生成地址: `https://your-worker.your-subdomain.workers.dev/secrets`
 
 ## 限制说明
 
