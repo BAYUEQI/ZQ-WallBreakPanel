@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZQ-WallBreakPanel</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    __STYLE__
+</head>
+
+<body>
+    <div class="container">
+        <h1>
+            <img class="icon" src="/favicon.ico" alt="WBP Logo"> ZQ-WallBreakPanel
+        </h1>
+        <div class="form-container">
+            <h2>用户登录</h2>
+            <form id="loginForm" class="login-form">
+                <div class="form-control">
+                    <label for="password">密码</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" required>
+                        <i id="togglePassword" class="fa fa-eye-slash toggle-password" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div id="passwordError" class="hint"></div>
+                <button type="submit" class="button">
+                    登录
+                    <i class="fa fa-sign-in" aria-hidden="true"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    <script>__SCRIPT__</script>
+</body>
+
+</html>
