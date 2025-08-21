@@ -39,80 +39,48 @@ npm run build
 构建完成后，会在 `dist/` 目录下生成以下文件：
 - `worker.js` - 主要的 Worker 代码文件
 - `worker.zip` - 压缩包版本，便于部署
+### 4. KV 绑定
+1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)
+2. 点击**存储和数据库**，再点击**Create Instance**，命名空间名称为**wbp**，点击**创建**
 
-### 4. 部署到 Cloudflare Workers
+### 5. 部署到 Cloudflare 
+#### 1. 部署到 Cloudflare Workes
 
 1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)
-2. 进入 **Workers & Pages** 页面
-3. 点击 **Create application**
-4. 选择 **Create Worker**
+2. 点击**计算(Workers)**,再点击**Workers和Pages** 
+3. 点击 右上角的**创建**，选择**Workers**
+4. 选择 **从Hello World!开始**，worker名称任意，点击**部署**，再点击**编辑代码**
 5. 将 `dist/worker.js` 的内容复制到编辑器中
-6. 点击 **Deploy**
+6. 点击 **部署**，完成后点击**左上角的返回箭头**
+7. 在新界面点击 **设置**，选择**变量和机密**，点击**添加**，依据环境变量配置变量（可访问`https://你的worker域名/secrets`生成密钥）；再依次点击**绑定**，**添加绑定**，**KV命名空间**，**添加绑定**，变量名称填**wbp**，KV命名空间选**wbp**，最后点击**添加绑定**
+8. 接着访问`https://你的workers域名/panel`
+#### 2. 部署到 Cloudflare Pages
 
-### 5. 配置环境变量和 KV 绑定
+1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)
+2. 点击**计算(Workers)**,再点击**Workers和Pages** 
+3. 点击 右上角的**创建**，选择**Pages**
+4. 选择 **使用直接上传**,page名称任意，点击**创建项目**，再上传`dist/worker.zip`,再点击**部署站点**，最后点击**继续处理项目**
+5. 在新界面点击 **设置**，选择**变量和机密**，点击**添加**，依据环境变量配置变量（可访问`https://你的page域名/secrets`生成密钥）；再依次点击**绑定**，**添加**，**KV命名空间**，变量名称填**wbp**，KV命名空间选**wbp**，最后点击**保存**
+8. 接着访问`https://你的page域名/panel`
 
-#### 环境变量
-在 Cloudflare Workers 的设置页面，添加以下环境变量：
+### 6. 环境变量
 
-| 变量名 | 说明 | 示例值 |
-|--------|------|--------|
-| **UUID(必填)** | VLESS UUID | `12345678-1234-1234-1234-123456789abc` |
-| **TR_PASS(必填)** | Trojan 密码 | `your_trojan_password` |
-| **PROXY_IP** | 代理 IP 或域名 (VLESS, Trojan) | `1.1.1.1` 或 `proxy.example.com` |
-| **SUB_PATH** | 订阅链接路径 | `/sub` |
-| **FALLBACK** | 备用域名 (VLESS, Trojan) | `speed.cloudflare.com` |
-| **DOH_URL** | DNS over HTTPS URL | `https://cloudflare-dns.com/dns-query` |
+| 变量名 | 说明 | 示例值 | 用途 |
+|--------|------|--------|------|
+| **UUID(必填)** | VLESS UUID | `12345678-1234-1234-1234-123456789abc` |用于 VLESS 协议的身份验证 |
+| **TR_PASS(必填)** | Trojan 密码 | `your_trojan_password` |用于 Trojan 协议的身份验证 |
+| **PROXY_IP** | 代理 IP 或域名 (VLESS, Trojan) | `1.1.1.1` 或 `proxy.example.com` |VLESS 和 Trojan 的代理服务器地址 |
+| **SUB_PATH** | 订阅链接路径 | `/sub` |生成订阅链接的路径前缀 |
+| **FALLBACK** | 备用域名 (VLESS, Trojan) | `speed.cloudflare.com` |当主域名不可用时的备用地址 |
+| **DOH_URL** | DNS over HTTPS URL | `https://cloudflare-dns.com/dns-query` |用于 DNS 查询的 DoH 服务器地址 |
 
-#### KV 绑定
-1. 在 Cloudflare Dashboard 中创建一个新的 KV 命名空间
-2. 在 Workers 设置页面的 **Variables** 标签页中
-3. 添加 KV 绑定：
-   - **Variable name**: `wbp`
-   - **KV namespace**: 选择你创建的 KV 命名空间
+### 7. 页面地址
+- 配置页面地址：`https://你的worker或者page域名/panel`
+- 登录页面地址：`https://你的worker或者page域名/login`
+- 密钥生成地址: `https://你的worker或者page域名/secrets`
 
-### 6. 访问面板
 
-部署完成后，访问你的 Worker URL：
-- 面板地址：`https://your-worker.your-subdomain.workers.dev/panel`
-- 登录地址：`https://your-worker.your-subdomain.workers.dev/login`
-- 密钥生成地址: `https://your-worker.your-subdomain.workers.dev/secrets`
 
-## 限制说明
-
-1. **UDP 传输**: Workers 上的 VLESS 和 Trojan 协议无法正确处理 **UDP**，默认禁用（影响 Telegram 视频通话等功能），UDP DNS 也不支持。默认启用 DoH 以增强安全性。
-2. **请求限制**: 每个 Worker 每天支持 10 万次请求，适用于 2-3 个用户。可以使用自定义个人域名来绕过 VLESS/Trojan 的限制，或选择无限制的 Warp 配置。
-
-## 支持的客户端
-
-| 客户端 | 版本要求 | 分片 支持 | Warp Pro 支持 |
-|--------|----------|---------------|---------------|
-| **v2rayNG** | 1.10.2 或更高 | ✅ | ✅ |
-| **v2rayN** | 7.12.5 或更高 | ✅ | ✅ |
-| **v2rayN-PRO** | 1.9 或更高 | ✅ | ✅ |
-| **Husi** | - | ✅ | ❌ |
-| **Sing-box** | 1.12.0 或更高 | ✅ | ❌ |
-| **Streisand** | 1.6.48 或更高 | ✅ | ✅ |
-| **V2Box** | - | ❌ | ❌ |
-| **Shadowrocket** | - | ❌ | ❌ |
-| **Nekoray** | - | ✅ | ❌ |
-| **Hiddify** | 2.5.7 或更高 | ✅ | ✅ |
-| **MahsaNG** | 13 或更高 | ✅ | ✅ |
-| **Clash Meta** | - | ❌ | ❌ |
-| **Clash Verge Rev** | - | ❌ | ❌ |
-| **FLClash** | - | ❌ | ❌ |
-| **AmneziaVPN** | - | ❌ | ✅ |
-| **WG Tunnel** | - | ❌ | ✅ |
-
-## 环境变量详解
-
-| 变量名 | 用途 | 说明 |
-|--------|------|------|
-| **UUID** | VLESS UUID | 用于 VLESS 协议的身份验证 |
-| **TR_PASS** | Trojan 密码 | 用于 Trojan 协议的身份验证 |
-| **PROXY_IP** | 代理 IP 或域名 | VLESS 和 Trojan 的代理服务器地址 |
-| **SUB_PATH** | 订阅链接路径 | 生成订阅链接的路径前缀 |
-| **FALLBACK** | 备用域名 | 当主域名不可用时的备用地址 |
-| **DOH_URL** | DNS over HTTPS | 用于 DNS 查询的 DoH 服务器地址 |
 
 ---
 
